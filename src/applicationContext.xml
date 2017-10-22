@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd ">
+	
+	<!-- 将要Spring管理的JavaBean在这里进行配置 -->
+	<!-- setter注入简单属性 -->
+	<bean id="demo1" class="com.spring.entity.Demo1"/>
+	<!-- setter注入复杂属性(数组,集合) -->
+	<bean id="demo2" class="com.spring.entity.Demo1">
+		<!-- 设置属性值 -->
+		<property name="name" value="Lucy"/>
+		<property name="age" value="34"></property>
+		<property name="hobbys">
+			<array>
+				<value>体育</value>
+				<value>睡觉</value>
+				<value>学习</value>
+			</array>
+		</property>
+		<property name="books">
+			<list>
+				<value>JAVA基础</value>
+				<value>SQL基础</value>
+				<value>JS基础</value>
+			</list>
+		</property>
+	</bean>
+	<!-- setter注入一个实体对象 -->
+	<bean id="demoTwo1" class="com.spring.entity.Demo2"/>
+	<bean id="demo3" class="com.spring.entity.Demo1">
+		<property name="name" value="Jack"></property>
+		<!-- 将一个对象注入另一个类中 -->
+		<property name="demo2" ref="demoTwo1"/>
+	</bean>
+
+	<!-- ===============构造方法注入================ -->
+	<!-- 方式一 构造方法属性名 -->
+	<bean name="demoThree1" class="com.spring.entity.Demo3">
+		<constructor-arg name="name" value="Toms"/>
+		<constructor-arg name="age" value="26"/>
+	</bean>
+	<!-- 方式二 构造方法下标 -->
+	<bean name="demoThree2" class="com.spring.entity.Demo3">
+		<constructor-arg index="0" value="Jaxs"/>
+		<constructor-arg index="1" value="29"/>
+	</bean>
+	
+	<!-- 接口注入 -->
+	<bean name="kingston" class="com.spring.entity.Kingston"/>
+	<bean name="demoFour1" class="com.spring.entity.Demo4">
+		<property name="name" value="Jack"/>
+		<!-- 接口引用对象 -->
+		<property name="usb" ref="kingston"/>
+	</bean>
+	
+	<!-- ===========练习二=========== -->
+	<!-- setter注入属性 -->
+	<!-- <bean name="hello" class="com.spring.entity2.Hello">
+		<property name="name" value="jack"/>
+	</bean> -->
+	
+	<!-- ===========练习三=========== -->
+	<!-- 注入对象 -->
+	<bean name="oracleDao" class="com.spring.dao.MySqlDao"/>
+	<bean name="mysqleDao" class="com.spring.dao.OracleDao"/>
+	<bean name="userService" class="com.spring.service.UserService" scope="">
+		<property name="userDao" ref="oracleDao"/>
+	</bean>
+</beans>
